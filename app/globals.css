@@ -1,0 +1,10 @@
+@import './tokens.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { font-family: var(--font-sans); }
+body { background: var(--color-bg); color: var(--color-text); font-size: 14px; line-height: 20px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@keyframes pulse-skeleton { 50% { opacity: .5; } }
+.skeleton { background: var(--color-surface-2); border-radius: var(--radius-sm); animation: pulse-skeleton 1.4s ease-in-out infinite; }
