@@ -57,9 +57,7 @@ export default function Login() {
         <div className="relative my-10 max-w-xl lg:my-0">
           <h1 className="text-xl font-bold sm:text-2xl lg:text-[44px] lg:leading-[52px]">Vendas, estoque e financeiro no mesmo lugar.</h1>
           <p className="mt-4 text-md text-on-hero-muted">Do pedido ao recebimento, sem planilha solta: o saldo baixa na venda e o contas a receber nasce na nota.</p>
-          <p className="mt-8 inline-flex rounded-full border border-hero-line px-4 py-2 text-sm text-on-hero-muted">Protótipo da disciplina de Engenharia de Requisitos</p>
         </div>
-        <p className="relative hidden text-sm text-on-hero-muted lg:block">Dados fictícios. Nenhuma informação real deve ser cadastrada.</p>
       </section>
 
       <section className="flex items-center justify-center bg-surface px-4 py-10 sm:px-8">
