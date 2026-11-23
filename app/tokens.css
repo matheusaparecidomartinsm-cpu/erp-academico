@@ -54,6 +54,11 @@
   --color-warning-soft: #FEF0C7;
   --color-on-warning-soft: #7A4A06;
   --color-focus: #3446D0;
+  --color-hero: #0E1433;
+  --color-hero-2: #1A2670;
+  --color-on-hero: #FFFFFF;
+  --color-on-hero-muted: #C9D0F5;
+  --color-hero-line: #5A6BE0;
 }
 
 @media (prefers-color-scheme: dark) {

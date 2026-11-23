@@ -30,6 +30,11 @@ export default {
         'warning-soft': v('warning-soft'),
         'on-warning-soft': v('on-warning-soft'),
         'focus': v('focus'),
+        'hero': v('hero'),
+        'hero-2': v('hero-2'),
+        'on-hero': v('on-hero'),
+        'on-hero-muted': v('on-hero-muted'),
+        'hero-line': v('hero-line'),
       },
       fontFamily: { sans: ['var(--font-sans)'], mono: ['var(--font-mono)'] },
       fontSize: {
