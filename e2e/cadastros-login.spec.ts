@@ -23,15 +23,15 @@ test('CAD-E2 e-mail inválido é recusado', async ({ page }) => {
 test('CAD-E3 busca sem resultado mostra estado vazio', async ({ page }) => {
   await page.goto('/clientes'); await page.getByLabel('Buscar').fill('zzzzzz'); await expect(page.getByRole('row')).toHaveCount(0)
 })
-test('LOGIN-N1 e-mail inválido e senha curta (demo) são recusados', async ({ page }) => {
+test('LOGIN-N1 usuário inválido e senha curta (demo) são recusados', async ({ page }) => {
   await page.goto('/login')
-  await page.getByLabel('E-mail').fill('x'); await page.getByLabel('Senha').fill('1234'); await page.getByRole('button', { name: 'Entrar' }).click()
+  await page.getByLabel('Usuário').fill('x'); await page.getByLabel('Senha').fill('1234'); await page.getByRole('button', { name: 'Entrar' }).click()
   await expect(page).toHaveURL(/login/)
-  await page.getByLabel('E-mail').fill('a@b.co'); await page.getByLabel('Senha').fill('12'); await page.getByRole('button', { name: 'Entrar' }).click()
+  await page.getByLabel('Usuário').fill('maria'); await page.getByLabel('Senha').fill('12'); await page.getByRole('button', { name: 'Entrar' }).click()
   await expect(page).toHaveURL(/login/)
 })
 test('LOGIN-H1 entra no modo demonstração', async ({ page }) => {
-  await page.goto('/login'); await page.getByLabel('E-mail').fill('a@b.co'); await page.getByLabel('Senha').fill('abcd'); await page.getByRole('button', { name: 'Entrar' }).click()
+  await page.goto('/login'); await page.getByLabel('Usuário').fill('maria'); await page.getByLabel('Senha').fill('abcd'); await page.getByRole('button', { name: 'Entrar' }).click()
   await page.waitForURL('/')
 })
 test('TEMA-1 alternar tema persiste ao recarregar', async ({ page }) => {

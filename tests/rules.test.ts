@@ -5,6 +5,7 @@ import { parseMoney } from '../lib/money'
 import { analisarClientes, analisarProdutos } from '../lib/importacao'
 import { montarRelatorio } from '../lib/relatorio'
 import { proximoPasso, PASSOS } from '../lib/ajuda'
+import { validaUsuario, emailDeUsuario, usuarioDeEmail } from '../lib/usuario'
 import { montarComissao, parsePercentual, fmtPercentual } from '../lib/comissao'
 
 async function rejeita(p: Promise<unknown>, trecho: string) {
@@ -267,6 +268,10 @@ const t = async (nome: string, fn: () => Promise<void>) => { db.__resetMemoryFor
     await rejeita(db.salvarVendedor({ nome: 'Negativo', ativo: true, comissaoBps: -1 }), 'Comissão deve ficar entre')
     const ana = (await db.listVendedores())[0]; await db.salvarVendedor({ id: ana.id, nome: ana.nome, ativo: true })
     assert.equal((await db.listVendedores())[0].comissaoBps ?? 0, ana.comissaoBps ?? 0)
+  })
+  await t('usuário: valida, vira e-mail interno e volta', async () => {
+    assert.equal(validaUsuario('Maria.Silva'), null); assert.ok(validaUsuario('ab')); assert.ok(validaUsuario('joão')); assert.ok(validaUsuario('a@b.co')); assert.ok(validaUsuario('  '))
+    assert.equal(emailDeUsuario(' Maria.Silva '), 'maria.silva@usuario.erp-academico.app'); assert.equal(usuarioDeEmail(emailDeUsuario('maria')), 'maria'); assert.equal(usuarioDeEmail('x@y.com'), 'x@y.com')
   })
   console.log(`\n${ok} testes passaram`)
 })().catch(e => { console.error('FALHOU:', e); process.exit(1) })

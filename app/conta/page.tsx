@@ -5,11 +5,12 @@ import { Button, Card, Field, PageHeader } from '@/components/ui'
 import { MODO_REAL } from '@/lib/modo'
 import { supabase } from '@/lib/supabase/client'
 import { limparCache } from '@/lib/db-supabase'
+import { usuarioDeEmail } from '@/lib/usuario'
 
 export default function Conta() {
   const router = useRouter(); const [email, setEmail] = useState('')
   const [conf, setConf] = useState(''); const [erro, setErro] = useState<string | null>(null); const [loading, setLoading] = useState(false)
-  useEffect(() => { if (MODO_REAL) supabase().auth.getUser().then(r => setEmail(r.data.user?.email ?? '')) }, [])
+  useEffect(() => { if (MODO_REAL) supabase().auth.getUser().then(r => setEmail(usuarioDeEmail(r.data.user?.email ?? ''))) }, [])
   async function sair() { await supabase().auth.signOut({ scope: 'global' }); limparCache(); router.push('/login'); router.refresh() }
   async function excluir(e: React.FormEvent) {
     e.preventDefault(); setErro(null)
