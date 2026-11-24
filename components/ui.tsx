@@ -2,8 +2,8 @@
 import Link from 'next/link'
 import { proximoPasso, type Passo } from '@/lib/ajuda'
 import { createContext, useCallback, useContext, useEffect, useId, useRef, useState } from 'react'
-import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react'
-import { AlertCircle, CheckCircle2, CircleDashed, CircleDot, Ban, Clock, Loader2, MinusCircle, X, Inbox } from 'lucide-react'
+import type { ComponentType, ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react'
+import { Search, AlertCircle, CheckCircle2, CircleDashed, CircleDot, Ban, Clock, Loader2, MinusCircle, X, Inbox } from 'lucide-react'
 
 /* ---------- Button ---------- */
 type BtnProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'ghost' | 'danger'; size?: 'sm' | 'md' | 'lg'; loading?: boolean }
@@ -74,16 +74,29 @@ export function Badge({ kind }: { kind: string }) {
 }
 
 /* ---------- Layout helpers ---------- */
-export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
+export function PageHeader({ title, subtitle, actions, icon: Icon, eyebrow }: { title: string; subtitle?: string; actions?: ReactNode; icon?: ComponentType<{ className?: string }>; eyebrow?: string }) {
   return (
     <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
-      <div><h1 className="text-xl font-bold">{title}</h1>{subtitle && <p className="mt-1 text-text-muted">{subtitle}</p>}</div>
+      <div>
+        {eyebrow && <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-nexo-texto">{eyebrow}</p>}
+        <h1 className="flex items-center gap-2 text-xl font-bold">{Icon && <Icon className="h-6 w-6 text-text-muted" aria-hidden />}{title}</h1>
+        {subtitle && <p className="mt-1 text-text-muted">{subtitle}</p>}
+      </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
   )
 }
+/** Cartão de busca: o filtro age enquanto se digita; o botão apenas confirma. */
+export function BuscaCard({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
+  return (
+    <form role="search" onSubmit={e => e.preventDefault()} className="mb-4 flex gap-2 rounded-xl border border-border bg-surface p-3 shadow-sm">
+      <input aria-label="Buscar" placeholder={placeholder} value={value} onChange={e => onChange(e.target.value)} className="h-10 min-w-0 flex-1 rounded-md border border-border-input bg-surface px-3 text-text" />
+      <Button type="submit" variant="secondary"><Search className="h-4 w-4" aria-hidden />Buscar</Button>
+    </form>
+  )
+}
 export const Card = ({ children, className = '' }: { children: ReactNode; className?: string }) =>
-  <div className={`rounded-lg border border-border bg-surface p-4 shadow-sm ${className}`}>{children}</div>
+  <div className={`rounded-xl border border-border bg-surface p-4 shadow-sm ${className}`}>{children}</div>
 
 export function EmptyState({ title, text, action }: { title: string; text: string; action?: ReactNode }) {
   return (
@@ -118,7 +131,7 @@ export function SkeletonRows({ rows = 5 }: { rows?: number }) {
 export type Col<T> = { key: string; header: string; align?: 'right'; hideOnMobile?: boolean; render: (row: T) => ReactNode }
 export function DataTable<T extends { id: string }>({ cols, rows, footer, caption }: { cols: Col<T>[]; rows: T[]; footer?: ReactNode; caption: string }) {
   return (
-    <div tabIndex={0} className="overflow-x-auto rounded-lg border border-border bg-surface shadow-sm">
+    <div tabIndex={0} className="overflow-x-auto rounded-xl border border-border bg-surface shadow-sm">
       <table className="w-full border-collapse">
         <caption className="sr-only">{caption}</caption>
         <thead><tr>{cols.map(c => (

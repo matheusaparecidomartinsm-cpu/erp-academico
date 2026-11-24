@@ -17,6 +17,8 @@ export default {
         'text': v('text'),
         'text-muted': v('text-muted'),
         'accent': v('accent'),
+        'nexo-ponto': v('ponto'),
+        'nexo-texto': v('ponto-texto'),
         'on-accent': v('on-accent'),
         'accent-soft': v('accent-soft'),
         'on-accent-soft': v('on-accent-soft'),

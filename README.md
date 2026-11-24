@@ -1,4 +1,4 @@
-# ERP Acadêmico (protótipo)
+# Nexo (protótipo)
 
 Protótipo de faculdade inspirado em ERPs de gestão: vendas, estoque e financeiro. Dados fictícios, guardados no navegador.
 Nota fiscal simulada, sem validade fiscal.

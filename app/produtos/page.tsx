@@ -1,7 +1,8 @@
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
-import { Badge, Button, DataTable, EmptyState, ErrorState, Field, PageHeader, SkeletonRows, useAsync } from '@/components/ui'
+import { Badge, Button, DataTable, EmptyState, ErrorState, BuscaCard, PageHeader, SkeletonRows, useAsync } from '@/components/ui'
+import { Package } from 'lucide-react'
 import { listProdutos } from '@/lib/db'
 import { brl, qtdFmt } from '@/lib/money'
 
@@ -9,8 +10,8 @@ export default function Produtos() {
   const [q, setQ] = useState(''); const r = useAsync(() => listProdutos(q), [q])
   return (
     <>
-      <PageHeader title="Produtos" subtitle="O que você vende." actions={<Link href="/produtos/novo"><Button>Novo produto</Button></Link>} />
-      <div className="mb-3 max-w-sm"><Field label="Buscar" placeholder="Descrição, grupo ou código" value={q} onChange={e => setQ(e.target.value)} /></div>
+      <PageHeader icon={Package} title="Produtos" subtitle="O que você vende." actions={<Link href="/produtos/novo"><Button>Novo produto</Button></Link>} />
+      <BuscaCard value={q} onChange={setQ} placeholder="Descrição, grupo ou código" />
       {r.loading ? <SkeletonRows /> : r.error ? <ErrorState message={r.error} onRetry={r.reload} /> : r.data!.length === 0 ? (
         <EmptyState title="Nenhum produto encontrado" text={q ? 'Tente outro termo de busca.' : 'Cadastre o primeiro produto.'} action={!q && <Link href="/produtos/novo"><Button>Novo produto</Button></Link>} />
       ) : (
