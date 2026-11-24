@@ -35,6 +35,8 @@ export default {
         'on-hero': v('on-hero'),
         'on-hero-muted': v('on-hero-muted'),
         'hero-line': v('hero-line'),
+        'hero-hover': v('hero-hover'),
+        'hero-active': v('hero-active'),
       },
       fontFamily: { sans: ['var(--font-sans)'], mono: ['var(--font-mono)'] },
       fontSize: {

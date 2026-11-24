@@ -8,10 +8,10 @@ import { Badge, DataTable, EmptyState } from '@/components/ui'
 export default function Inicio() {
   const d = useAsync(dashboard); const p = useAsync(() => listPedidos())
   const cards = d.data ? [
-    { l: 'Vendas do mês', v: brl(d.data.vendasMesCentavos), href: '/notas' },
-    { l: 'A receber vencido', v: brl(d.data.receberVencidoCentavos), href: '/financeiro/receber' },
-    { l: 'Produtos sem saldo', v: String(d.data.itensSemSaldo), href: '/estoque' },
-    { l: 'Pedidos em aberto', v: String(d.data.pedidosAbertos), href: '/pedidos' },
+    { l: 'Vendas do mês', v: brl(d.data.vendasMesCentavos), href: '/notas', cor: 'border-l-success' },
+    { l: 'A receber vencido', v: brl(d.data.receberVencidoCentavos), href: '/financeiro/receber', cor: 'border-l-danger' },
+    { l: 'Produtos sem saldo', v: String(d.data.itensSemSaldo), href: '/estoque', cor: 'border-l-accent' },
+    { l: 'Pedidos em aberto', v: String(d.data.pedidosAbertos), href: '/pedidos', cor: 'border-l-accent' },
   ] : []
   return (
     <>
@@ -19,7 +19,7 @@ export default function Inicio() {
       {d.error ? <ErrorState message={d.error} onRetry={d.reload} /> : (
         <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {d.loading ? Array.from({ length: 4 }, (_, i) => <div key={i} className="skeleton h-24 rounded-lg" aria-hidden />) : cards.map(c => (
-            <Card key={c.l}><p className="text-xs text-text-muted">{c.l}</p><p className="my-1 text-xl tabular-nums sm:text-xl">{c.v}</p><Link href={c.href} className="text-xs text-accent underline">Ver detalhes</Link></Card>
+            <Card key={c.l} className={`border-l-4 ${c.cor}`}><p className="text-sm text-text-muted">{c.l}</p><p className="my-1 text-xl font-bold tabular-nums">{c.v}</p><Link href={c.href} className="text-xs text-accent underline">Ver detalhes</Link></Card>
           ))}
         </div>
       )}

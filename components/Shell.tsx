@@ -34,13 +34,14 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const ativo = (h: string) => (h === '/' ? path === '/' : h === '/estoque' ? path === '/estoque' : path.startsWith(h))
 
   const nav = (
-    <nav aria-label="Principal" className="flex flex-col gap-4 p-3">
+    <nav aria-label="Principal" className="flex flex-col gap-5 px-3 pb-6 pt-2">
       {NAV.map(g => (
         <div key={g.grupo}>
-          <p className="px-3 pb-1 text-xs font-medium text-text-muted">{g.grupo}</p>
+          <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-on-hero-muted">{g.grupo}</p>
           {g.itens.map(i => (
             <Link key={i.href} href={i.href} aria-current={ativo(i.href) ? 'page' : undefined}
-              className={`flex items-center gap-2 rounded-md px-3 py-2 ${ativo(i.href) ? 'bg-accent-soft font-semibold text-on-accent-soft' : 'text-text hover:bg-surface-2'}`}>
+              className={`relative flex items-center gap-3 rounded-md px-3 py-2 transition-colors duration-fast ${ativo(i.href) ? 'bg-hero-active font-semibold text-on-hero' : 'text-on-hero-muted hover:bg-hero-hover hover:text-on-hero'}`}>
+              {ativo(i.href) && <span aria-hidden className="absolute inset-y-1.5 left-0 w-1 rounded-full bg-on-hero" />}
               <i.icon className="h-4 w-4" aria-hidden />{i.rotulo}
             </Link>
           ))}
@@ -48,29 +49,39 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       ))}
     </nav>
   )
+  const marca = (
+    <Link href="/" className="flex items-center gap-3 px-5 py-5 text-on-hero">
+      <svg aria-hidden viewBox="0 0 32 32" className="h-8 w-8"><rect width="32" height="32" rx="7" className="fill-accent" /><path d="M9 10h14M9 16h14M9 22h8" className="stroke-on-accent" strokeWidth="3" strokeLinecap="round" /></svg>
+      <span className="text-md font-semibold">ERP Acadêmico</span>
+    </Link>
+  )
   return (
     <ToastProvider>
       <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-md focus:bg-surface focus:p-2">Pular para o conteúdo</a>
-      <header className="sticky top-0 z-30 flex h-header items-center gap-3 border-b border-border bg-surface px-4">
-        <button className="rounded-md p-2 hover:bg-surface-2 lg:hidden" aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open} onClick={() => setOpen(o => !o)}>
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-        <Link href="/" className="text-lg font-semibold">ERP Acadêmico</Link>
-        <span className="hidden rounded-full bg-warning-soft px-2 py-0.5 text-xs font-medium text-on-warning-soft sm:inline">{MODO_REAL ? 'Protótipo — use dados fictícios' : 'Protótipo — dados fictícios (demonstração)'}</span>
-        <div className="ml-auto flex items-center gap-1">
-          {MODO_REAL ? <Link href="/conta" className="rounded-md px-2 py-2 text-xs text-text-muted hover:bg-surface-2">Minha conta</Link> : (
-            <button aria-label="Restaurar exemplo" className="flex items-center gap-1 rounded-md px-2 py-2 text-xs text-text-muted hover:bg-surface-2" onClick={() => { if (confirm('Restaurar os dados de exemplo? As alterações feitas serão perdidas.')) resetDemo() }}>
-              <RotateCcw className="h-4 w-4" aria-hidden /><span className="hidden sm:inline">Restaurar exemplo</span>
-            </button>)}
-          <button className="rounded-md p-2 hover:bg-surface-2" aria-label={dark ? 'Usar tema claro' : 'Usar tema escuro'} onClick={() => { setDark(d => { localStorage.setItem('erp-tema', d ? 'light' : 'dark'); return !d }) }}>
-            {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </button>
+      <div className="lg:flex">
+        <aside className="hidden w-sidebar shrink-0 lg:block">
+          <div className="sticky top-0 flex h-screen flex-col overflow-y-auto bg-hero bg-gradient-to-b from-hero to-hero-2">{marca}{nav}</div>
+        </aside>
+        <div className="min-w-0 flex-1">
+          <header className="sticky top-0 z-30 flex h-header items-center gap-3 border-b border-border bg-surface px-4">
+            <button className="rounded-md p-2 hover:bg-surface-2 lg:hidden" aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open} onClick={() => setOpen(o => !o)}>
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+            <Link href="/" className="text-lg font-semibold lg:hidden">ERP Acadêmico</Link>
+            <span className="hidden rounded-full bg-warning-soft px-2 py-0.5 text-xs font-medium text-on-warning-soft sm:inline">{MODO_REAL ? 'Protótipo — use dados fictícios' : 'Protótipo — dados fictícios (demonstração)'}</span>
+            <div className="ml-auto flex items-center gap-1">
+              {MODO_REAL ? <Link href="/conta" className="rounded-md px-2 py-2 text-xs text-text-muted hover:bg-surface-2">Minha conta</Link> : (
+                <button aria-label="Restaurar exemplo" className="flex items-center gap-1 rounded-md px-2 py-2 text-xs text-text-muted hover:bg-surface-2" onClick={() => { if (confirm('Restaurar os dados de exemplo? As alterações feitas serão perdidas.')) resetDemo() }}>
+                  <RotateCcw className="h-4 w-4" aria-hidden /><span className="hidden sm:inline">Restaurar exemplo</span>
+                </button>)}
+              <button className="rounded-md p-2 hover:bg-surface-2" aria-label={dark ? 'Usar tema claro' : 'Usar tema escuro'} onClick={() => { setDark(d => { localStorage.setItem('erp-tema', d ? 'light' : 'dark'); return !d }) }}>
+                {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </button>
+            </div>
+          </header>
+          {open && <div className="fixed inset-x-0 bottom-0 top-header z-20 overflow-y-auto bg-hero bg-gradient-to-b from-hero to-hero-2 lg:hidden">{nav}</div>}
+          <main id="conteudo" className="p-4 md:p-8"><div className="mx-auto max-w-content">{children}</div></main>
         </div>
-      </header>
-      <div className="flex">
-        <aside className="sticky top-header hidden h-[calc(100vh-theme(spacing.header))] w-sidebar shrink-0 overflow-y-auto border-r border-border bg-surface lg:block">{nav}</aside>
-        {open && <div className="fixed inset-x-0 bottom-0 top-header z-20 overflow-y-auto bg-surface lg:hidden">{nav}</div>}
-        <main id="conteudo" className="min-w-0 flex-1 p-4 md:p-6"><div className="mx-auto max-w-content">{children}</div></main>
       </div>
     </ToastProvider>
   )

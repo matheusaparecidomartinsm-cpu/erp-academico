@@ -77,7 +77,7 @@ export function Badge({ kind }: { kind: string }) {
 export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
   return (
     <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
-      <div><h1 className="text-xl">{title}</h1>{subtitle && <p className="mt-1 text-text-muted">{subtitle}</p>}</div>
+      <div><h1 className="text-xl font-bold">{title}</h1>{subtitle && <p className="mt-1 text-text-muted">{subtitle}</p>}</div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
   )
@@ -118,11 +118,11 @@ export function SkeletonRows({ rows = 5 }: { rows?: number }) {
 export type Col<T> = { key: string; header: string; align?: 'right'; hideOnMobile?: boolean; render: (row: T) => ReactNode }
 export function DataTable<T extends { id: string }>({ cols, rows, footer, caption }: { cols: Col<T>[]; rows: T[]; footer?: ReactNode; caption: string }) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-border bg-surface shadow-sm">
+    <div tabIndex={0} className="overflow-x-auto rounded-lg border border-border bg-surface shadow-sm">
       <table className="w-full border-collapse">
         <caption className="sr-only">{caption}</caption>
         <thead><tr>{cols.map(c => (
-          <th key={c.key} scope="col" className={`h-9 bg-surface-2 px-3 text-xs font-semibold text-text-muted ${c.align === 'right' ? 'text-right' : 'text-left'} ${c.hideOnMobile ? 'hidden md:table-cell' : ''}`}>{c.header}</th>
+          <th key={c.key} scope="col" className={`h-10 bg-surface-2 px-3 text-xs font-semibold uppercase tracking-wide text-text-muted ${c.align === 'right' ? 'text-right' : 'text-left'} ${c.hideOnMobile ? 'hidden md:table-cell' : ''}`}>{c.header}</th>
         ))}</tr></thead>
         <tbody>{rows.map(r => (
           <tr key={r.id} className="border-t border-border hover:bg-surface-2/60">{cols.map(c => (

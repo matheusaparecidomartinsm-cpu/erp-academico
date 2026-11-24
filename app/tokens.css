@@ -59,6 +59,8 @@
   --color-on-hero: #FFFFFF;
   --color-on-hero-muted: #C9D0F5;
   --color-hero-line: #5A6BE0;
+  --color-hero-hover: #1A2260;
+  --color-hero-active: #2A3590;
 }
 
 @media (prefers-color-scheme: dark) {
